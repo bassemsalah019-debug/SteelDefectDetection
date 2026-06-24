@@ -1,0 +1,32 @@
+{
+  "rows": [
+    {
+      "backend": "PyTorch",
+      "precision": "FP32",
+      "size_MB": 6.26,
+      "latency_ms": 5.73,
+      "fps": 174.6,
+      "mAP50": 0.7525,
+      "mAP50_95": 0.3926
+    },
+    {
+      "backend": "ONNX (ORT 0)",
+      "precision": "FP32",
+      "size_MB": 12.27,
+      "latency_ms": 9.96,
+      "fps": 100.4,
+      "mAP50": 0.7041,
+      "mAP50_95": 0.3583
+    },
+    {
+      "backend": "TensorRT",
+      "precision": "FP16",
+      "size_MB": 9.84,
+      "latency_ms": 8.06,
+      "fps": 124.1,
+      "mAP50": 0.704,
+      "mAP50_95": 0.3593
+    }
+  ],
+  "notes": []
+}

@@ -1,0 +1,66 @@
+# Improved YOLOv8n for steel surface defect detection.
+#
+# Reproduces the architecture from:
+#   "A lightweight algorithm for steel surface defect detection using improved
+#    YOLOv8", Scientific Reports (2025), s41598-025-93469-5.
+#
+# Paper modifications vs. baseline YOLOv8n (see docs/improved_model_notes.md):
+#   1. Ghost backbone : backbone Conv -> GhostConv, C2f -> C3Ghost (Methods).
+#   2. MPCA attention : inserted at the END of the backbone, after SPPF (Methods).
+#   3. SIoU loss      : replaces CIoU (applied in code via src.modules.register).
+# The neck/head are left as the STANDARD YOLOv8 PAN-FPN (paper modifies the
+# backbone only). GhostConv/C3Ghost are built into ultralytics; MPCA is provided
+# by src/modules and must be registered first: `from src.modules import register; register()`.
+#
+# NOTE: requires src.modules.register() to have run, otherwise the `MPCA` layer
+# name is unknown to ultralytics' model parser.
+
+# Parameters
+nc: 6 # number of classes (NEU-DET steel defects)
+scales: # compound scaling; scale 'n' is auto-selected from the filename "yolov8n..."
+  # [depth, width, max_channels]
+  n: [0.33, 0.25, 1024]
+  s: [0.33, 0.50, 1024]
+  m: [0.67, 0.75, 768]
+  l: [1.00, 1.00, 512]
+  x: [1.00, 1.25, 512]
+
+# ---- Ghost backbone (paper modification #1) ----------------------------------
+# Stem (layer 0) kept as standard Conv per Ultralytics' official yolov8-ghost
+# convention (GhostConv on a 3-channel input is degenerate). All other backbone
+# Conv -> GhostConv and all C2f -> C3Ghost.
+backbone:
+  # [from, repeats, module, args]
+  - [-1, 1, Conv, [64, 3, 2]] # 0-P1/2  (stem kept as Conv)
+  - [-1, 1, GhostConv, [128, 3, 2]] # 1-P2/4
+  - [-1, 3, C3Ghost, [128, True]] # 2
+  - [-1, 1, GhostConv, [256, 3, 2]] # 3-P3/8
+  - [-1, 6, C3Ghost, [256, True]] # 4   <- P3 feature (to neck)
+  - [-1, 1, GhostConv, [512, 3, 2]] # 5-P4/16
+  - [-1, 6, C3Ghost, [512, True]] # 6   <- P4 feature (to neck)
+  - [-1, 1, GhostConv, [1024, 3, 2]] # 7-P5/32
+  - [-1, 3, C3Ghost, [1024, True]] # 8
+  - [-1, 1, SPPF, [1024, 5]] # 9
+  - [-1, 1, MPCA, []] # 10  <- MPCA attention at END of backbone (paper modification #2)
+
+# ---- Standard YOLOv8 PAN-FPN neck + head (unchanged by the paper) ------------
+# Indices are shifted +1 relative to stock YOLOv8 because MPCA adds layer 10.
+# The deepest top-down path now starts from the MPCA output (layer 10).
+head:
+  - [-1, 1, nn.Upsample, [None, 2, "nearest"]] # 11
+  - [[-1, 6], 1, Concat, [1]] # 12  cat backbone P4
+  - [-1, 3, C2f, [512]] # 13
+
+  - [-1, 1, nn.Upsample, [None, 2, "nearest"]] # 14
+  - [[-1, 4], 1, Concat, [1]] # 15  cat backbone P3
+  - [-1, 3, C2f, [256]] # 16 (P3/8-small)
+
+  - [-1, 1, Conv, [256, 3, 2]] # 17
+  - [[-1, 13], 1, Concat, [1]] # 18  cat head P4
+  - [-1, 3, C2f, [512]] # 19 (P4/16-medium)
+
+  - [-1, 1, Conv, [512, 3, 2]] # 20
+  - [[-1, 10], 1, Concat, [1]] # 21  cat head P5 (MPCA output)
+  - [-1, 3, C2f, [1024]] # 22 (P5/32-large)
+
+  - [[16, 19, 22], 1, Detect, [nc]] # 23  Detect(P3, P4, P5)

@@ -1,0 +1,129 @@
+{
+  "_meta": {
+    "description": "Grounding knowledge base for the 6 NEU-DET steel surface defect classes. Used to keep the LLM report factual (it must explain only from this KB, never invent metallurgy). Bilingual: en + ar (Modern Standard Arabic).",
+    "source": "Standard steel-surface metallurgy + NEU-DET class definitions (Song & Yan, NEU surface defect database).",
+    "classes": ["crazing", "inclusion", "patches", "pitted_surface", "rolled-in_scale", "scratches"]
+  },
+  "classes": {
+    "crazing": {
+      "en": {
+        "name": "Crazing",
+        "definition": "A network of fine, interconnected hairline cracks across the steel surface.",
+        "root_cause": "Thermal and residual stresses from uneven cooling, excessive surface hardening, or rapid quenching that exceed the material's surface ductility.",
+        "visual_signature": "Web-like mesh of shallow cracks, often covering a region rather than a single line; low contrast and diffuse.",
+        "severity": "moderate-to-high",
+        "severity_note": "Cracks act as stress concentrators and can propagate under load or corrosion; a structural-integrity concern.",
+        "recommended_action": "Inspect cooling/quench schedule and residual-stress state; flag affected coil for stress-relief review and possible rejection of cracked sections."
+      },
+      "ar": {
+        "name": "تشقق سطحي (Crazing)",
+        "definition": "شبكة من الشقوق الشعرية الدقيقة المتشابكة على سطح الفولاذ.",
+        "root_cause": "إجهادات حرارية ومتبقية ناتجة عن تبريد غير منتظم أو تصليد سطحي مفرط أو إخماد سريع يتجاوز مطيلية السطح.",
+        "visual_signature": "نسيج شبكي من الشقوق الضحلة يغطي منطقة كاملة غالبًا بدلاً من خط واحد، منخفض التباين ومنتشر.",
+        "severity": "متوسط إلى مرتفع",
+        "severity_note": "تعمل الشقوق كمركّزات للإجهاد وقد تنتشر تحت الحِمل أو التآكل، وهي مصدر قلق على السلامة الإنشائية.",
+        "recommended_action": "فحص جدول التبريد/الإخماد وحالة الإجهاد المتبقي، ووضع علامة على اللفة المتأثرة لمراجعة تخفيف الإجهاد واحتمال رفض الأجزاء المتشققة."
+      }
+    },
+    "inclusion": {
+      "en": {
+        "name": "Inclusion",
+        "definition": "Non-metallic foreign particles (oxides, sulfides, silicates, slag) embedded in the steel surface.",
+        "root_cause": "Impurities and deoxidation products trapped in the molten steel, or refractory/slag erosion during casting that are not floated out before solidification.",
+        "visual_signature": "Discrete dark spots, streaks or elongated stringers contrasting with the surrounding surface.",
+        "severity": "moderate-to-high",
+        "severity_note": "Inclusions are internal stress raisers and fatigue-crack initiation sites; they degrade mechanical strength.",
+        "recommended_action": "Review ladle metallurgy, deoxidation practice and casting cleanliness; check refractory condition. Severe inclusion density may warrant downgrade."
+      },
+      "ar": {
+        "name": "شوائب (Inclusion)",
+        "definition": "جسيمات غريبة غير معدنية (أكاسيد، كبريتيدات، سيليكات، خبث) منغرسة في سطح الفولاذ.",
+        "root_cause": "شوائب ونواتج إزالة الأكسجين محتجزة في الفولاذ المنصهر، أو تآكل البطانة الحرارية/الخبث أثناء الصب دون طفوها قبل التجمد.",
+        "visual_signature": "بقع داكنة منفصلة أو خطوط ممتدة تتباين مع السطح المحيط.",
+        "severity": "متوسط إلى مرتفع",
+        "severity_note": "الشوائب مركّزات إجهاد داخلية ومواقع لبدء شقوق الكلل، وتُضعف المتانة الميكانيكية.",
+        "recommended_action": "مراجعة ميتالورجيا البوتقة وممارسة إزالة الأكسجين ونظافة الصب وفحص حالة البطانة الحرارية. الكثافة العالية للشوائب قد تستوجب خفض الدرجة."
+      }
+    },
+    "patches": {
+      "en": {
+        "name": "Patches",
+        "definition": "Irregular regions of discoloration or uneven surface texture distinct from the base finish.",
+        "root_cause": "Uneven pickling/cleaning, localized oxidation, or residual scale and coating non-uniformity.",
+        "visual_signature": "Irregularly shaped bright or dark areas with diffuse boundaries, varying in size.",
+        "severity": "low-to-moderate",
+        "severity_note": "Often cosmetic, but can mask or accompany corrosion and coating-adhesion problems.",
+        "recommended_action": "Check pickling line uniformity and surface cleaning; verify no underlying corrosion before coating."
+      },
+      "ar": {
+        "name": "بقع (Patches)",
+        "definition": "مناطق غير منتظمة من تغيّر اللون أو ملمس سطحي غير متجانس يختلف عن التشطيب الأساسي.",
+        "root_cause": "تخليل/تنظيف غير منتظم، أو أكسدة موضعية، أو بقايا قشور وعدم تجانس الطلاء.",
+        "visual_signature": "مناطق فاتحة أو داكنة غير منتظمة الشكل بحدود منتشرة ومتفاوتة الحجم.",
+        "severity": "منخفض إلى متوسط",
+        "severity_note": "غالبًا تجميلية، لكنها قد تخفي أو ترافق التآكل ومشكلات التصاق الطلاء.",
+        "recommended_action": "فحص انتظام خط التخليل وتنظيف السطح، والتأكد من عدم وجود تآكل أسفلها قبل الطلاء."
+      }
+    },
+    "pitted_surface": {
+      "en": {
+        "name": "Pitted surface",
+        "definition": "Clusters of small cavities or pits distributed across the steel surface.",
+        "root_cause": "Localized corrosion, trapped gas bubbles, over-pickling, or mechanical micro-damage.",
+        "visual_signature": "Dotted depressions / speckled texture, often grouped in clusters.",
+        "severity": "moderate",
+        "severity_note": "Pits initiate corrosion and fatigue cracks and reduce effective cross-section; they deepen over time.",
+        "recommended_action": "Assess corrosion environment and pickling time; consider surface protection. Deep/dense pitting may require rejection."
+      },
+      "ar": {
+        "name": "سطح منقّر (Pitted surface)",
+        "definition": "تجمّعات من التجاويف أو النقر الصغيرة موزعة على سطح الفولاذ.",
+        "root_cause": "تآكل موضعي، أو فقاعات غاز محتجزة، أو تخليل مفرط، أو ضرر ميكانيكي دقيق.",
+        "visual_signature": "منخفضات منقّطة / ملمس مرقّط متجمّع غالبًا في عناقيد.",
+        "severity": "متوسط",
+        "severity_note": "تبدأ النقر التآكل وشقوق الكلل وتقلّل المقطع الفعّال، وتزداد عمقًا مع الوقت.",
+        "recommended_action": "تقييم بيئة التآكل وزمن التخليل والنظر في حماية السطح. النقر العميق/الكثيف قد يستوجب الرفض."
+      }
+    },
+    "rolled-in_scale": {
+      "en": {
+        "name": "Rolled-in scale",
+        "definition": "Oxide scale pressed and embedded into the surface during hot rolling.",
+        "root_cause": "Furnace/mill scale not fully removed before rolling, then mechanically rolled into the steel surface.",
+        "visual_signature": "Dark, elongated or patchy embedded scale following the rolling direction.",
+        "severity": "moderate",
+        "severity_note": "Compromises surface integrity and coating adhesion; embedded oxide can spall and initiate corrosion.",
+        "recommended_action": "Verify descaling (high-pressure water) before rolling and furnace atmosphere; inspect roll surface condition."
+      },
+      "ar": {
+        "name": "قشور مدحرجة (Rolled-in scale)",
+        "definition": "قشور أكسيدية مضغوطة ومنغرسة في السطح أثناء الدرفلة الساخنة.",
+        "root_cause": "عدم إزالة قشور الفرن/المدرفلة بالكامل قبل الدرفلة ثم دحرجتها ميكانيكيًا داخل سطح الفولاذ.",
+        "visual_signature": "قشور داكنة ممتدة أو مرقّعة منغرسة باتجاه الدرفلة.",
+        "severity": "متوسط",
+        "severity_note": "تُضعف سلامة السطح والتصاق الطلاء، وقد تتقشّر الأكاسيد المنغرسة وتبدأ التآكل.",
+        "recommended_action": "التحقق من إزالة القشور (ماء عالي الضغط) قبل الدرفلة وجو الفرن، وفحص حالة سطح الأسطوانات."
+      }
+    },
+    "scratches": {
+      "en": {
+        "name": "Scratches",
+        "definition": "Linear grooves or score marks on the steel surface.",
+        "root_cause": "Mechanical contact during handling, transport, or contact with rollers/guides and foreign hard particles.",
+        "visual_signature": "Straight or gently curved high-contrast lines, usually isolated and directional.",
+        "severity": "low-to-moderate",
+        "severity_note": "Mostly cosmetic, but deep scratches act as stress raisers and corrosion channels.",
+        "recommended_action": "Inspect roller/guide surfaces and handling for contact damage; deep scratches may need rework or downgrade."
+      },
+      "ar": {
+        "name": "خدوش (Scratches)",
+        "definition": "أخاديد خطية أو علامات حزّ على سطح الفولاذ.",
+        "root_cause": "تلامس ميكانيكي أثناء المناولة أو النقل أو ملامسة الأسطوانات/الموجِّهات والجسيمات الصلبة الغريبة.",
+        "visual_signature": "خطوط مستقيمة أو منحنية قليلًا عالية التباين، معزولة واتجاهية عادةً.",
+        "severity": "منخفض إلى متوسط",
+        "severity_note": "تجميلية غالبًا، لكن الخدوش العميقة تعمل كمركّزات إجهاد وقنوات تآكل.",
+        "recommended_action": "فحص أسطح الأسطوانات/الموجِّهات والمناولة بحثًا عن ضرر التلامس، والخدوش العميقة قد تتطلب إعادة معالجة أو خفض الدرجة."
+      }
+    }
+  }
+}

@@ -1,0 +1,18 @@
+# Hugging Face Spaces (CPU) requirements for the Streamlit demo.
+# CPU-only torch keeps the Space small and within free-tier limits.
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch>=2.2.0
+torchvision>=0.17.0
+
+ultralytics>=8.3.0
+streamlit>=1.30.0
+pillow>=10.0.0
+numpy>=1.24.0
+matplotlib>=3.7.0
+onnxruntime>=1.18.0   # optional: serve the exported ONNX instead of best.pt
+
+# Bilingual (EN/AR) defect report -> HTML/PDF (KB fallback works with no LLM endpoint)
+reportlab>=4.5.0
+arabic-reshaper>=3.0.0
+python-bidi>=0.6.0
+openai>=1.0.0          # connect the report to an OpenAI-compatible LLM API (set STEEL_LLM_* on the Space)

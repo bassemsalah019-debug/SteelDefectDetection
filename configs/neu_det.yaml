@@ -1,0 +1,25 @@
+# NEU-DET dataset configuration for YOLOv8
+# Steel Surface Defect Detection
+#
+# 'path' must point to the generated YOLO dataset root (created by
+# src/prepare_local.py or 01_data_preparation.ipynb). Use an ABSOLUTE path:
+# Ultralytics resolves a relative 'path' against its own datasets dir
+# (settings.yaml), NOT this file's location — a relative path silently breaks.
+#   neu-det-yolo/
+#     images/train/  images/val/  images/test/
+#     labels/train/  labels/val/  labels/test/
+
+path: C:/Users/student/Desktop/SteelDefectDetection/data/neu-det-yolo  # dataset root (absolute)
+train: images/train          # train images (paper 8:1:1 -> 1440)
+val: images/val              # model-selection set (paper -> 180)
+test: images/test            # held-out set; paper's reported metric (paper -> 180)
+
+# Classes (6 steel surface defect types)
+nc: 6
+names:
+  0: crazing
+  1: inclusion
+  2: patches
+  3: pitted_surface
+  4: rolled-in_scale
+  5: scratches

@@ -1,0 +1,7 @@
+data/
+results/
+*.pt
+deployment/huggingface/space/
+__pycache__/
+.ipynb_checkpoints/
+.venv/

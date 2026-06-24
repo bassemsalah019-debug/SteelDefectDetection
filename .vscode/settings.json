@@ -1,0 +1,6 @@
+{
+  "python.defaultInterpreterPath": "C:\\Users\\student\\Downloads\\files\\.venv\\Scripts\\python.exe",
+  "jupyter.kernels.excludePythonEnvironments": [
+    "C:\\Users\\student\\AppData\\Local\\Programs\\Python\\Python315\\python.exe"
+  ]
+}

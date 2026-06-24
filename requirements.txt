@@ -1,0 +1,41 @@
+# Steel Surface Defect Detection (NEU-DET + YOLOv8)
+# Trimmed from SENTINEL-AI — only what this project needs.
+# torch/torchvision: you already have 2.6.0+cu124 installed — DO NOT reinstall.
+
+# ─── Core ────────────────────────────────────────────────────────
+ultralytics>=8.3.0          # YOLOv8
+opencv-python>=4.9.0
+pillow>=10.0.0
+numpy>=1.24.0
+
+# ─── Data prep & download ────────────────────────────────────────
+kagglehub>=0.3.0            # auto-download NEU-DET from Kaggle
+pyyaml>=6.0.0
+tqdm>=4.66.0
+
+# ─── Analysis & plots (for EDA + results) ────────────────────────
+pandas>=2.0.0
+matplotlib>=3.7.0
+seaborn>=0.12.0
+scikit-learn>=1.3.0
+
+# ─── Demo app (optional) ─────────────────────────────────────────
+streamlit>=1.30.0
+
+# ─── Export & deployment (optional) ──────────────────────────────
+onnx>=1.16.0               # ONNX export hub
+onnxruntime>=1.18.0        # run exported ONNX on CPU (desktop / HF Spaces)
+# Eigen-CAM in src/explain.py needs NO extra deps. For gradient-based XAI
+# (Grad-CAM++) you can optionally add:  grad-cam>=1.5.0
+
+# ─── LLM defect report (src/report/) ─────────────────────────────
+openai>=2.37.0            # OpenAI-compatible client -> Xiaomi MiMo via Ollama/vLLM
+reportlab>=4.5.0          # bilingual report PDF export
+arabic-reshaper>=3.0.0    # Arabic glyph shaping for RTL PDF
+python-bidi>=0.6.0        # bidirectional (RTL) reordering for the Arabic PDF
+# HTML export uses only the stdlib; running the LLM needs a served MiMo endpoint
+# (Ollama: `ollama run mimo-7b-rl`) + env STEEL_LLM_BASE_URL / STEEL_LLM_MODEL.
+
+# ─── Notebook ────────────────────────────────────────────────────
+jupyter>=1.0.0
+ipykernel>=6.29.0

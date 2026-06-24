@@ -1,0 +1,236 @@
+{
+  "root": "C:\\Users\\student\\Desktop\\SteelDefectDetection\\data\\neu-det-yolo",
+  "splits": {
+    "train": {
+      "images": 1440,
+      "instances_per_class": {
+        "crazing": 527,
+        "inclusion": 852,
+        "patches": 688,
+        "pitted_surface": 345,
+        "rolled-in_scale": 496,
+        "scratches": 427
+      },
+      "images_per_class": {
+        "crazing": 240,
+        "inclusion": 311,
+        "patches": 269,
+        "pitted_surface": 241,
+        "rolled-in_scale": 240,
+        "scratches": 240
+      }
+    },
+    "val": {
+      "images": 180,
+      "instances_per_class": {
+        "crazing": 82,
+        "inclusion": 87,
+        "patches": 100,
+        "pitted_surface": 41,
+        "rolled-in_scale": 70,
+        "scratches": 61
+      },
+      "images_per_class": {
+        "crazing": 30,
+        "inclusion": 35,
+        "patches": 36,
+        "pitted_surface": 30,
+        "rolled-in_scale": 30,
+        "scratches": 30
+      }
+    },
+    "test": {
+      "images": 180,
+      "instances_per_class": {
+        "crazing": 80,
+        "inclusion": 72,
+        "patches": 93,
+        "pitted_surface": 46,
+        "rolled-in_scale": 62,
+        "scratches": 60
+      },
+      "images_per_class": {
+        "crazing": 30,
+        "inclusion": 36,
+        "patches": 37,
+        "pitted_surface": 30,
+        "rolled-in_scale": 30,
+        "scratches": 30
+      }
+    }
+  },
+  "issues": {
+    "missing_labels": [],
+    "empty_labels": [],
+    "empty_labels_count": 0,
+    "invalid_labels": [],
+    "invalid_labels_count": 0,
+    "exact_duplicate_groups": 1,
+    "cross_split_exact_duplicates": {},
+    "cross_split_near_dup_counts": {
+      "train->test": 1144,
+      "train->val": 1846,
+      "val->test": 197
+    },
+    "cross_split_near_dup_examples": {
+      "train->test": [
+        [
+          "crazing_102",
+          "crazing_276",
+          3
+        ],
+        [
+          "crazing_102",
+          "inclusion_243",
+          3
+        ],
+        [
+          "crazing_102",
+          "inclusion_246",
+          2
+        ],
+        [
+          "crazing_102",
+          "inclusion_251",
+          3
+        ],
+        [
+          "crazing_102",
+          "inclusion_253",
+          3
+        ],
+        [
+          "crazing_102",
+          "inclusion_255",
+          2
+        ],
+        [
+          "crazing_102",
+          "inclusion_256",
+          2
+        ],
+        [
+          "crazing_102",
+          "pitted_surface_257",
+          2
+        ]
+      ],
+      "train->val": [
+        [
+          "crazing_102",
+          "inclusion_241",
+          2
+        ],
+        [
+          "crazing_102",
+          "inclusion_249",
+          2
+        ],
+        [
+          "crazing_102",
+          "inclusion_250",
+          2
+        ],
+        [
+          "crazing_102",
+          "inclusion_252",
+          2
+        ],
+        [
+          "crazing_102",
+          "inclusion_257",
+          2
+        ],
+        [
+          "crazing_102",
+          "inclusion_271",
+          2
+        ],
+        [
+          "crazing_102",
+          "pitted_surface_252",
+          2
+        ],
+        [
+          "crazing_102",
+          "pitted_surface_265",
+          2
+        ]
+      ],
+      "val->test": [
+        [
+          "crazing_262",
+          "crazing_269",
+          1
+        ],
+        [
+          "inclusion_241",
+          "crazing_253",
+          2
+        ],
+        [
+          "inclusion_241",
+          "crazing_276",
+          1
+        ],
+        [
+          "inclusion_241",
+          "inclusion_243",
+          1
+        ],
+        [
+          "inclusion_241",
+          "inclusion_245",
+          2
+        ],
+        [
+          "inclusion_241",
+          "inclusion_246",
+          0
+        ],
+        [
+          "inclusion_241",
+          "inclusion_251",
+          1
+        ],
+        [
+          "inclusion_241",
+          "inclusion_253",
+          1
+        ]
+      ]
+    },
+    "near_dup_threshold_hamming": 3
+  },
+  "image_dims": {
+    "(200, 200)": 1800
+  },
+  "image_modes": {
+    "RGB": 1800
+  },
+  "box_stats": {
+    "total_boxes": 4189,
+    "boxes_per_image": {
+      "min": 1,
+      "mean": 2.33,
+      "max": 9
+    },
+    "area_fraction": {
+      "min": 0.003,
+      "median": 0.118,
+      "mean": 0.175,
+      "max": 0.99
+    },
+    "giant_box_pct_gt0.5area": 6.3,
+    "giant_box_pct_gt0.8area": 2.8,
+    "per_class_median_area": {
+      "crazing": 0.211,
+      "inclusion": 0.041,
+      "patches": 0.093,
+      "pitted_surface": 0.555,
+      "rolled-in_scale": 0.123,
+      "scratches": 0.075
+    },
+    "aspect_ratio_median": 0.68
+  }
+}
