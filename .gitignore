@@ -27,3 +27,9 @@ webapp/backend/uploads/
 # ── Regenerable build artifacts (HF Space packages) ──
 deployment/huggingface/space/
 webapp/hf_space/
+
+# ── Regenerable run visualizations (keep only metrics json/csv/yaml) ──
+notebooks/runs/
+experiments/**/*.png
+experiments/**/*.jpg
+experiments/**/*.jpeg
