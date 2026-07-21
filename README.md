@@ -1,144 +1,78 @@
-# Steel Surface Defect Detection with YOLOv8
+# Steel Surface Defect Detection
 
-Graduation capstone project — automated detection of surface defects on hot-rolled
-steel strips using the **NEU-DET** dataset and **YOLOv8**.
+Automated detection of **6 surface-defect types** on hot-rolled steel strips (NEU-DET) with
+**YOLOv8n** — from research (a rigorous, 5-seed-validated study) to two working, deployed
+demos. DEPI AI Track graduation capstone.
 
-## Project Goal
+**Defect classes:** crazing · inclusion · patches · pitted_surface · rolled-in_scale · scratches
 
-Replace slow, error-prone manual visual inspection of steel surfaces with an
-automated deep-learning detector that locates and classifies six defect types in
-real time.
+---
 
-## The 6 Defect Classes
+## 🚩 Flagship: SteelVision — full-stack inspection platform
 
-| ID | Class | Description |
-|----|-------|-------------|
-| 0 | crazing | Network of fine surface cracks |
-| 1 | inclusion | Foreign material embedded in the surface |
-| 2 | patches | Localized irregular surface patches |
-| 3 | pitted_surface | Small pits / cavities |
-| 4 | rolled-in_scale | Oxide scale pressed into the surface during rolling |
-| 5 | scratches | Linear mechanical scratches |
+A login-protected web app (**FastAPI + React/TypeScript**) where an inspector uploads steel
+images (single or batch), the system detects defects (**Fixed or Adaptive** thresholds),
+shows **Eigen-CAM** heatmaps, generates a grounded **bilingual (EN/AR)** report, saves every
+inspection, and charts defect trends on a dashboard.
 
-## Dataset: NEU-DET
+- **Code:** [`webapp/`](webapp/) — [backend](webapp/backend/) · [frontend](webapp/frontend/) · [run & test guide](webapp/README.md)
+- **Live demo:** https://huggingface.co/spaces/hazemaaa/steelvision
+- **Run locally:** double-click `webapp/start-app.bat` → http://localhost:5173 · **test login** `inspector@steel.io` / `password123`
+- Tests (15 passing), Alembic migrations, Docker Compose (Postgres) all included.
 
-- **1,800 images** total — 300 per class × 6 classes
-- Grayscale, 200×200 pixels
-- Source: Northeastern University (NEU)
-- Annotations: bounding boxes (originally Pascal VOC XML, converted to YOLO txt)
+## 🔬 The research
 
-**Download options:**
-1. Auto-download via `kagglehub` (handled inside `01_data_preparation.ipynb`)
-2. Manual: https://www.kaggle.com/datasets/kaustubhdikshit/neu-surface-defect-database
-3. Pre-converted YOLO format: https://github.com/Marfbin/NEU-DET-with-yolov8
+- **Model:** YOLOv8n baseline — **TEST mAP@0.5 0.7525** (5-seed **0.7475 ± 0.016**), 6 MB, ~157 FPS → [`models/`](models/)
+- **Honest finding:** popular "improved YOLOv8" variants (Ghost+MPCA+SIoU, CBAM+WIoU, P2-head, YOLOv8s) **did not beat the plain baseline** under a fair, recipe-matched, 5-seed statistical gate.
+- **Adaptive Real-Time Confidence Thresholding:** per-class, per-image thresholds from class difficulty + brightness + quality + detection density (post-processing only; ONNX/TRT-safe) → [`docs/audit/ADAPTIVE_THRESHOLDING.md`](docs/audit/ADAPTIVE_THRESHOLDING.md)
+- **Notebooks:** [`notebooks/`](notebooks/) — data prep, EDA, training, evaluation, 5-seed study
+- **Full audit trail:** [`docs/audit/`](docs/audit/) · **model card:** [`docs/model_card.md`](docs/model_card.md)
 
-## Project Structure
+## 🎛️ Secondary demo: Streamlit Studio
+
+Single-page research/XAI demo (detection + adaptive thresholding + Eigen-CAM + bilingual report).
+- **Code:** [`src/app.py`](src/app.py) · **Live:** https://huggingface.co/spaces/hazemaaa/steel-defect-detection
+- **Run:** `streamlit run src/app.py`
+
+---
+
+## Repository layout
 
 ```
 SteelDefectDetection/
-├── notebooks/
-│   ├── 01_data_preparation.ipynb        # convert VOC→YOLO + 8:1:1 split
-│   ├── 02_eda.ipynb                     # class balance, samples, t-SNE, heatmaps
-│   ├── 03_train_baseline.ipynb          # YOLOv8n baseline @640
-│   ├── updated_03_train_baseline.ipynb  # optimized baseline @800 + TTA
-│   ├── updated_05_train_improved.ipynb  # Ghost+MPCA+SIoU (best model)
-│   ├── updated_07_train_yolo11s.ipynb   # YOLO11s experiment
-│   └── 04_evaluate.ipynb                # metrics, confusion matrix, predictions, Eigen-CAM
-├── src/
-│   ├── modules/                         # MPCA, SIoU, ResBlock_CBAM, WIoU + register()
-│   ├── explain.py                       # Eigen-CAM explainability (no extra deps)
-│   ├── app.py                           # Streamlit app (upload/webcam → detect + XAI)
-│   ├── export_model.py                  # ONNX/TFLite/NCNN export + parity check
-│   └── make_paper_split.py              # 8:1:1 stratified re-split
-├── configs/                            # dataset + improved/LZY architecture YAMLs
-├── deployment/huggingface/             # Hugging Face Space (app, requirements, card)
-├── data/                               # dataset (auto-created; git-ignored)
-├── results/                            # training runs + plots (git-ignored)
-├── docs/                               # presentation, model_card.md, DEPLOYMENT.md, notes
-├── requirements.txt
-└── README.md
+├── models/            # ⭐ the production model (best.pt) + model card
+├── webapp/            # 🚩 SteelVision — FastAPI backend + React frontend (flagship)
+├── src/               # shared ML: infer · adaptive_threshold · explain · report · modules · app.py (Streamlit)
+├── notebooks/         # data prep, EDA, training, evaluation, 5-seed study (8 notebooks)
+├── configs/           # dataset + model-architecture YAMLs
+├── scripts/           # eval / benchmark / audit / seed-study scripts
+├── tests/             # preprocessing-parity, adaptive-threshold, smoke tests
+├── experiments/       # 5-seed study METRICS (json/csv/yaml)  — leaderboard evidence
+├── deployment/        # Hugging Face Space build (Streamlit)
+└── docs/              # model card · audit/ · deployment · presentation
 ```
+
+## Dataset (not in git — regenerable)
+
+**NEU-DET** — 1,800 grayscale 200×200 images, 6 classes × 300, stratified **8:1:1** split.
+Auto-downloaded via `kagglehub` in [`notebooks/01_data_preparation.ipynb`](notebooks/01_data_preparation.ipynb)
+(or Kaggle: *kaustubhdikshit/neu-surface-defect-database*). `data/`, `results/`, and training
+weights are git-ignored (large/regenerable); the deployed model is kept in [`models/`](models/).
 
 ## Setup
 
 ```bash
-# 1. Activate your existing venv (torch 2.6.0+cu124 already installed)
-#    Windows PowerShell:
-.\.venv\Scripts\Activate.ps1
-
-# 2. Install project requirements (does NOT touch torch)
-pip install -r requirements.txt
+pip install -r requirements.txt          # research/ML deps (torch installed separately)
+# SteelVision app: see webapp/README.md
 ```
 
-## How to Run (in order)
-
-1. **`notebooks/01_data_preparation.ipynb`** — converts annotations to YOLO format,
-   creates the 8:1:1 train/val/test split, writes the dataset.
-2. **`notebooks/02_eda.ipynb`** — class distribution, image samples, box stats, t-SNE.
-3. **`notebooks/03_train_baseline.ipynb`** (and `updated_03` / `updated_05`) — train
-   the baseline and the improved Ghost+MPCA+SIoU model. ~30–60 min+ on GPU.
-4. **`notebooks/04_evaluate.ipynb`** — mAP, per-class metrics, confusion matrix,
-   sample predictions, **Eigen-CAM explanations**.
-
-### Demo, explainability & deployment
-```bash
-streamlit run src/app.py                                    # upload/webcam → detect + Eigen-CAM
-python src/export_model.py --weights results/baseline_640/weights/best.pt --half --validate
-```
-Hugging Face Space + edge/mobile export are documented in **`docs/DEPLOYMENT.md`**;
-model details are in **`docs/model_card.md`**.
-
-### Adaptive confidence thresholding (industrial mode)
-The app offers two inference modes — **Fixed** (one global conf) and **Adaptive** (a
-per-class, per-image threshold from class difficulty + brightness + image quality +
-detection density; `src/adaptive_threshold.py`). Adaptive is **post-processing only**, so
-it works on the PyTorch *and* exported ONNX/TensorRT models, adds **~0.23 ms/img**, and
-recovers recall on the hard classes (crazing recall **+11 pp**) at a recall-first operating
-point. Full method, measured results and trade-offs: **`docs/audit/ADAPTIVE_THRESHOLDING.md`**.
-```bash
-python scripts/eval_adaptive.py --weights results/baseline_640/weights/best.pt --imgsz 640 --device 0
-```
-
-## Results (measured)
-
-Production model: **YOLOv8n baseline @ imgsz 640** (`results/baseline_640/weights/best.pt`).
-TEST split (180 imgs, stratified 8:1:1). Chosen over the "improved" architectures after a
-5-seed statistical gate — see `experiments/LEADERBOARD.md` and `docs/audit/`.
-
-**Model comparison — fair recipe @640, TEST mAP@0.5:**
+## Results (measured, TEST split)
 
 | Model | TEST mAP@0.5 | Params | GFLOPs |
 |---|---|---|---|
-| **YOLOv8n baseline** 🏆 | **0.7525** | 3.01M | 8.09 |
+| **YOLOv8n baseline** 🏆 | **0.7525** (5-seed 0.7475 ± 0.016) | 3.01M | 8.09 |
 | Ghost+ResCBAM+WIoU (LZY) | 0.7316 | 4.05M | 10.17 |
 | Ghost+MPCA+SIoU (paper) | 0.7305 | 2.39M | 6.24 |
 
-5-seed validated: baseline **0.7475 ± 0.0161**; P2-head and YOLOv8s both trend *worse* and
-are not significant → **no candidate beats the plain baseline.**
-
-**Deployment benchmark — RTX 2000 Ada, imgsz 640, no TTA** (`docs/audit/DEPLOYMENT_BENCHMARK.md`):
-
-| Backend | Precision | Latency | FPS | TEST mAP@0.5 | Size |
-|---|---|---|---|---|---|
-| **PyTorch** 🏆 | FP32 | 5.73 ms | 174.6 | **0.7525** | 6.26 MB |
-| ONNX | FP32 | 9.96 ms | 100.4 | 0.7041 | 12.27 MB |
-| TensorRT | FP16 | 8.06 ms | 124.1 | 0.704 | 9.84 MB |
-
-> **Ship PyTorch FP32** — it is both the fastest *and* most accurate here. TensorRT/ONNX both
-> regress to ~0.704 (a shared Ultralytics export-path parity gap, *not* FP16 loss) and TRT is
-> ~40% slower because YOLOv8n is too small for graph-opt to pay off on this GPU.
-
-Hardest class is **crazing** (~0.44, low-contrast — the architecture-invariant floor);
-easiest are *patches* (0.93) and *pitted_surface* (0.86).
-
-## Reference Papers
-
-- "A lightweight algorithm for steel surface defect detection using improved
-  YOLOv8" — *Scientific Reports* (2025), open access.
-- "Steel surface defect detection based on improved YOLOv8" — *ResearchGate* (2025).
-- "MPA-YOLO: Steel surface defect detection based on improved YOLOv8 framework"
-  — *Pattern Recognition* (2025).
-
-## Author
-
-Steel Surface Defect Detection — DEPI AI Track Graduation Project
+Hardest class: **crazing** (~0.44, low-contrast floor). Easiest: patches (0.93), pitted_surface (0.86).
+Deployment benchmark and full analysis in [`docs/audit/`](docs/audit/).
