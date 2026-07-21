@@ -30,9 +30,14 @@ def main() -> None:
         shutil.rmtree(SPACE)
     (SPACE / "weights").mkdir(parents=True)
 
-    # Space entrypoint + config (live in this folder)
-    for name in ("app.py", "requirements.txt", "README.md"):
+    # Space entrypoint + config (live in this folder). Dockerfile because HF now
+    # builds Streamlit apps via the Docker SDK (sdk: docker in the README card).
+    for name in ("app.py", "requirements.txt", "README.md", "Dockerfile"):
         shutil.copy(HERE / name, SPACE / name)
+
+    # Dark "Molten Graphite" theme so the Studio UI renders correctly on HF.
+    shutil.copytree(ROOT / ".streamlit", SPACE / ".streamlit",
+                    ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
 
     # Source package needed to un-pickle the custom checkpoint
     shutil.copytree(ROOT / "src", SPACE / "src", ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))

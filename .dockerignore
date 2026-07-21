@@ -1,0 +1,31 @@
+# Keep the Docker build context small. Backend image needs: webapp/backend, src/,
+# and ONLY results/baseline_640/weights/best.pt.
+.git
+.github
+**/__pycache__
+**/*.pyc
+.pytest_cache
+.vscode
+.claude
+*.pt
+data
+experiments
+runs
+notebooks
+docs
+deployment
+tests
+webapp/frontend/node_modules
+webapp/frontend/dist
+webapp/backend/uploads
+webapp/backend/*.db
+webapp/backend/_*.db
+webapp/backend/alembic/__pycache__
+
+# results/: exclude everything except the production weights file
+results/*
+!results/baseline_640
+results/baseline_640/*
+!results/baseline_640/weights
+results/baseline_640/weights/*
+!results/baseline_640/weights/best.pt

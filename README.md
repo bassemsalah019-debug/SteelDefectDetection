@@ -88,6 +88,17 @@ python src/export_model.py --weights results/baseline_640/weights/best.pt --half
 Hugging Face Space + edge/mobile export are documented in **`docs/DEPLOYMENT.md`**;
 model details are in **`docs/model_card.md`**.
 
+### Adaptive confidence thresholding (industrial mode)
+The app offers two inference modes — **Fixed** (one global conf) and **Adaptive** (a
+per-class, per-image threshold from class difficulty + brightness + image quality +
+detection density; `src/adaptive_threshold.py`). Adaptive is **post-processing only**, so
+it works on the PyTorch *and* exported ONNX/TensorRT models, adds **~0.23 ms/img**, and
+recovers recall on the hard classes (crazing recall **+11 pp**) at a recall-first operating
+point. Full method, measured results and trade-offs: **`docs/audit/ADAPTIVE_THRESHOLDING.md`**.
+```bash
+python scripts/eval_adaptive.py --weights results/baseline_640/weights/best.pt --imgsz 640 --device 0
+```
+
 ## Results (measured)
 
 Production model: **YOLOv8n baseline @ imgsz 640** (`results/baseline_640/weights/best.pt`).

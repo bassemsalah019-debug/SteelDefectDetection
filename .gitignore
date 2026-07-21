@@ -1,7 +1,29 @@
+# ── Datasets & model outputs (large, regenerable/redownloadable) ──
 data/
 results/
 *.pt
-deployment/huggingface/space/
+*.onnx
+*.engine
+
+# ── Weights that ARE the deliverable live in models/ (force-tracked below) ──
+!models/**/*.pt
+
+# ── Python ──
 __pycache__/
+*.pyc
+.pytest_cache/
 .ipynb_checkpoints/
 .venv/
+
+# ── Node / frontend build ──
+node_modules/
+dist/
+.vite/
+
+# ── Runtime / local state ──
+*.db
+webapp/backend/uploads/
+
+# ── Regenerable build artifacts (HF Space packages) ──
+deployment/huggingface/space/
+webapp/hf_space/

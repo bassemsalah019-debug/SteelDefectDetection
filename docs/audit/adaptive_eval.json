@@ -1,0 +1,156 @@
+{
+  "weights": "results/baseline_640/weights/best.pt",
+  "imgsz": 640,
+  "conf_fixed": 0.25,
+  "device": "cuda:0 (NVIDIA RTX 2000 Ada Generation)",
+  "n_images": 180,
+  "eval_candidate_floor": 0.01,
+  "adaptive_config": {
+    "t0": 0.25,
+    "k_class": 0.3,
+    "w_bright": 0.08,
+    "w_quality": 0.1,
+    "w_density": 0.06,
+    "t_min": 0.08,
+    "t_max": 0.6,
+    "candidate_floor": 0.05
+  },
+  "fixed": {
+    "mAP50": 0.6315,
+    "precision_macro": 0.5955,
+    "recall_macro": 0.7106,
+    "f1_macro": 0.639,
+    "precision_micro": 0.5656,
+    "recall_micro": 0.7094,
+    "f1_micro": 0.6294,
+    "per_class": {
+      "crazing": {
+        "AP50": 0.2594,
+        "P": 0.3402,
+        "R": 0.4125,
+        "F1": 0.3729,
+        "TP": 33,
+        "FP": 64,
+        "n_gt": 80
+      },
+      "inclusion": {
+        "AP50": 0.774,
+        "P": 0.7436,
+        "R": 0.8056,
+        "F1": 0.7733,
+        "TP": 58,
+        "FP": 20,
+        "n_gt": 72
+      },
+      "patches": {
+        "AP50": 0.8431,
+        "P": 0.8081,
+        "R": 0.8602,
+        "F1": 0.8333,
+        "TP": 80,
+        "FP": 19,
+        "n_gt": 93
+      },
+      "pitted_surface": {
+        "AP50": 0.7262,
+        "P": 0.8095,
+        "R": 0.7391,
+        "F1": 0.7727,
+        "TP": 34,
+        "FP": 8,
+        "n_gt": 46
+      },
+      "rolled-in_scale": {
+        "AP50": 0.449,
+        "P": 0.4368,
+        "R": 0.6129,
+        "F1": 0.5101,
+        "TP": 38,
+        "FP": 49,
+        "n_gt": 62
+      },
+      "scratches": {
+        "AP50": 0.7374,
+        "P": 0.4348,
+        "R": 0.8333,
+        "F1": 0.5714,
+        "TP": 50,
+        "FP": 65,
+        "n_gt": 60
+      }
+    }
+  },
+  "adaptive": {
+    "mAP50": 0.6393,
+    "precision_macro": 0.5762,
+    "recall_macro": 0.7356,
+    "f1_macro": 0.6325,
+    "precision_micro": 0.5153,
+    "recall_micro": 0.7361,
+    "f1_micro": 0.6062,
+    "per_class": {
+      "crazing": {
+        "AP50": 0.2959,
+        "P": 0.2781,
+        "R": 0.525,
+        "F1": 0.3636,
+        "TP": 42,
+        "FP": 109,
+        "n_gt": 80
+      },
+      "inclusion": {
+        "AP50": 0.774,
+        "P": 0.725,
+        "R": 0.8056,
+        "F1": 0.7632,
+        "TP": 58,
+        "FP": 22,
+        "n_gt": 72
+      },
+      "patches": {
+        "AP50": 0.8343,
+        "P": 0.8229,
+        "R": 0.8495,
+        "F1": 0.836,
+        "TP": 79,
+        "FP": 17,
+        "n_gt": 93
+      },
+      "pitted_surface": {
+        "AP50": 0.7262,
+        "P": 0.8095,
+        "R": 0.7391,
+        "F1": 0.7727,
+        "TP": 34,
+        "FP": 8,
+        "n_gt": 46
+      },
+      "rolled-in_scale": {
+        "AP50": 0.4684,
+        "P": 0.3868,
+        "R": 0.6613,
+        "F1": 0.4881,
+        "TP": 41,
+        "FP": 65,
+        "n_gt": 62
+      },
+      "scratches": {
+        "AP50": 0.7374,
+        "P": 0.4348,
+        "R": 0.8333,
+        "F1": 0.5714,
+        "TP": 50,
+        "FP": 65,
+        "n_gt": 60
+      }
+    }
+  },
+  "timing": {
+    "fixed_latency_ms": 13.101,
+    "adaptive_latency_ms": 15.31,
+    "overhead_ms": 2.208,
+    "fixed_fps": 76.3,
+    "adaptive_fps": 65.3,
+    "n_timed": 80
+  }
+}

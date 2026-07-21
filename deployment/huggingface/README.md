@@ -1,22 +1,27 @@
 ---
 title: Steel Surface Defect Detection
 emoji: 🔩
-colorFrom: blue
+colorFrom: red
 colorTo: gray
-sdk: streamlit
-sdk_version: 1.40.0
-app_file: app.py
+sdk: docker
+app_port: 7860
 pinned: false
 license: mit
 ---
 
-# Steel Surface Defect Detection (YOLOv8n + Eigen-CAM + bilingual report)
+# Steel Surface Defect Detection Studio (YOLOv8n + Adaptive thresholding + Eigen-CAM + bilingual report)
 
 Automated detection of six surface-defect types on hot-rolled steel strips
-(NEU-DET). Upload an image or use your webcam; the app collapses it to grayscale
-(matching how the model was trained), draws bounding boxes, lists the defects with
-confidence, shows an **Eigen-CAM** heatmap of where the model looked, and generates a
-grounded **bilingual (English / Arabic) defect report** you can download as HTML or PDF.
+(NEU-DET), in a dark "Molten Graphite" **Detection Studio** UI. Upload an image or use
+your webcam; the app collapses it to grayscale (matching how the model was trained),
+draws bounding boxes, lists the defects with confidence, shows an **Eigen-CAM** heatmap
+of where the model looked, and generates a grounded **bilingual (English / Arabic)
+defect report** you can download as HTML or PDF.
+
+Two inference modes: **Fixed** (one global confidence) and **Adaptive** — a per-class,
+per-image confidence threshold from class difficulty, image brightness, image quality
+and detection density (post-processing only, so it works on PyTorch *and* exported
+ONNX/TensorRT). See `docs/audit/ADAPTIVE_THRESHOLDING.md`.
 
 **Classes:** crazing, inclusion, patches, pitted_surface, rolled-in_scale, scratches.
 

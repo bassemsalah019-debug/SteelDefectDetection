@@ -1,0 +1,48 @@
+# SteelVision full stack: Postgres + FastAPI backend + nginx-served React frontend.
+#   cd webapp && docker compose up --build
+# Then open http://localhost:8080  (API at http://localhost:8000, docs at /docs).
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: steel
+      POSTGRES_PASSWORD: steelpass
+      POSTGRES_DB: steelvision
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U steel -d steelvision"]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+
+  backend:
+    build:
+      context: ..
+      dockerfile: webapp/backend/Dockerfile
+    environment:
+      ENVIRONMENT: production
+      DATABASE_URL: postgresql+psycopg://steel:steelpass@db:5432/steelvision
+      SECRET_KEY: change-me-in-production-please
+      CORS_ORIGINS: http://localhost:8080
+      ML_ROOT: /app
+      WEIGHTS_PATH: weights/best.pt
+    volumes:
+      - uploads:/app/uploads
+    depends_on:
+      db:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+
+  frontend:
+    build:
+      context: ./frontend
+    depends_on:
+      - backend
+    ports:
+      - "8080:80"
+
+volumes:
+  db_data:
+  uploads:

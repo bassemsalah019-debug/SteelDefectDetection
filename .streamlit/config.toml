@@ -1,0 +1,15 @@
+# Theme for the Steel Surface Defect Detection Studio — "Molten Graphite"
+# dark industrial control-room palette. Read automatically when the app is
+# launched from the project root (`streamlit run src/app.py`).
+# The app layers a custom CSS design system on top of this base.
+
+[theme]
+base = "dark"
+primaryColor = "#ff6b35"            # molten orange accent
+backgroundColor = "#0a0e14"         # deep graphite page
+secondaryBackgroundColor = "#121925"  # panel / sidebar
+textColor = "#e6edf3"
+font = "sans serif"
+
+[browser]
+gatherUsageStats = false

@@ -1,0 +1,12 @@
+# Backend container deps: the API stack + CPU Torch/Ultralytics (reused ML) + Postgres driver.
+--extra-index-url https://download.pytorch.org/whl/cpu
+torch>=2.2
+torchvision>=0.17
+ultralytics>=8.3
+matplotlib>=3.7
+reportlab>=4.5
+arabic-reshaper>=3.0
+python-bidi>=0.6
+openai>=1.0
+psycopg[binary]>=3.1
+-r requirements.txt
